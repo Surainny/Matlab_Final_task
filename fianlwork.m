@@ -22,7 +22,7 @@ function varargout = fianlwork(varargin)
 
 % Edit the above text to modify the response to help fianlwork
 
-% Last Modified by GUIDE v2.5 24-Jun-2023 22:23:17
+% Last Modified by GUIDE v2.5 25-Jun-2023 18:19:02
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -192,6 +192,15 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+[filename, pathname] = uiputfile('*.jpg','保存图片到');
+I=getimage(handles.axes2);
+add=fullfile(pathname, filename);
+imwrite(I,add,'jpg');
+
+
+
+
+
 
 
 % --- Executes on button press in pushbutton4.
@@ -393,9 +402,6 @@ function pushbutton12_Callback(hObject, eventdata, handles)
 [filename2, pathname2] = uigetfile({'*.jpg;*.png;*.bmp;*.tif'}, '选择图像文件');
 pic1=getimage(handles.axes1);
 pic2= imread(fullfile(pathname2, filename2));
-[r1,l1]=size(pic1);
-[r2,l2]=size(pic2);
-imresize(pic2,[r1 l1]);
-outcome=imadd(pic1,pic2,'uint16');
+outcome = imfuse(pic1,pic2,'blend','Scaling','joint');
 axes(handles.axes2);
 imshow(outcome);
